@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Food</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="food.css" rel="stylesheet">
+
+</head>
+<style>
+    h1{
+     font-family: 'Agency FB Bold';
+       text-transform:uppercase; 
+        font-size: 48px;
+         
+        text-shadow: 4px 4px 4px #aaa;  
+    } 
+    body{
+       font-family: 'Agency FB Bold'; 
+      align-content: center
+    }
+    </style>
+<body>
+<div align = "center"> 
+<script src="searchrecipe.js"></script>
+<input id="search" ><button onclick="getrecipe(document.getElementById('search').value)">Search</button>
+<div id="output"></div>
+<a href="" id="sourceLink"></a>
+<script>
+function getsource(id){
+$.ajax({
+url:"https://api.spoonacular.com/recipes/"+id+"/information?apiKey=596190f43ea24a599516ffdce2718bf8&includeNutrition=true",
+success: function(res) {
+
+document.getElementById("sourceLink").innerHTML=res.sourceUrl
+document.getElementById("sourceLink").href=res.sourceUrl
+}
+});
+}
+function getrecipe(q){
+$.ajax({
+url:"https://api.spoonacular.com/recipes/search?apiKey=596190f43ea24a599516ffdce2718bf8&number=&query="+q,
+success: function(res) {
+document.getElementById("output").innerHTML="<h1>"+res.results[0].title+"</h1><br><img src='"+res.baseUri+res.results[0].image+"' width='400' /><br>"+res.results[0].title+" : "+res.results[0].readyInMinutes+" minutes"
+getsource(res.results[0].id)
+}
+});
+  }
+
+</script></div>
+    </body></html>
